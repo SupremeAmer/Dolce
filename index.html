@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dolce - Fun Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe36b' stroke='%233c5edb' stroke-width='5'/%3E%3Cellipse cx='24' cy='28' rx='4' ry='7' fill='%233c5edb'/%3E%3Cellipse cx='40' cy='28' rx='4' ry='7' fill='%233c5edb'/%3E%3Cpath d='M24 44 Q32 54 40 44' stroke='%233c5edb' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
+  <meta name="theme-color" content="#3c5edb">
+  <meta property="og:title" content="Dolce Fun Gallery">
+  <meta property="og:description" content="The funniest WhatsApp statuses and memes, now online!">
+  <meta property="og:image" content="https://emojiapi.dev/api/v1/1f60e/128.png">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dolce Fun Gallery">
+  <meta name="twitter:description" content="The funniest WhatsApp statuses and memes, now online!">
+  <meta name="twitter:image" content="https://emojiapi.dev/api/v1/1f60e/128.png">
+  <link rel="apple-touch-icon" href="https://emojiapi.dev/api/v1/1f60e/192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* -- SCROLLBAR TWEAKS -- */
+    html { scrollbar-width: thin; scrollbar-color: #375afc #f9fbff;}
+    ::-webkit-scrollbar {width: 9px;background: #f9fbff;}
+    ::-webkit-scrollbar-thumb {background: #375afc;border-radius: 7px;}
+    /* --- BASE --- */
+    :root {
+      --primary: #375afc;
+      --secondary: #ffe36b;
+      --danger: #e53935;
+      --bg: #f9fbff;
+      --dark-bg: #18192e;
+      --dark-card: #23243b;
+      --text: #1a2233;
+      --text-light: #f5f8ff;
+      --shadow: 0 8px 38px #3c5edb13;
+    }
+    html, body { margin:0; padding:0; min-height:100vh; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background .3s, color .3s;
+      overscroll-behavior-y: none;
+      scroll-behavior: smooth;
+    }
+    body.dark {
+      background: var(--dark-bg);
+      color: var(--text-light);
+    }
+    /* --- NAVBAR --- */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1101;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      height:60px;
+      width: 100vw;
+      box-shadow: 0 3px 28px #3c5edb22;
+      user-select: none;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.45em;
+      font-weight: 900;
+      gap: 10px;
+      min-width: 90px;
+    }
+    .logo svg {
+      height: 38px; width: 38px; border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 1px 7px #fff5;
+      padding: 2px;
+      display: inline-block;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0; }
+    .nav-links button, .nav-links a {
+      background: none; border: none; color: #fff; font-size: 1.08em; margin-left: 12px; cursor: pointer;
+      font-weight:600; padding: 8px 16px; border-radius:7px; transition: background .2s, color .2s;
+      text-decoration: none; display: inline-block;
+      min-width: 44px; min-height: 44px;
+    }
+    .nav-links button:hover, .nav-links button.active, .nav-links a:hover {
+      background: #fff; color: var(--primary);
+    }
+    .whatsapp-btn {
+      background: #25d366;
+      color: #fff;
+      font-weight: 700;
+      padding: 8px 17px;
+      border-radius: 7px;
+      font-size: 1.01em;
+      margin-left: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background .18s, color .18s;
+      border: none;
+      box-shadow: 0 2px 10px #25d36633;
+      min-width: 44px; min-height: 44px;
+    }
+    .whatsapp-btn:hover { background: #1ebe5c; color: #fff;}
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+      z-index: 1500;
+      min-width: 44px; min-height: 44px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 26px;
+      height: 4px;
+      margin: 4px 0;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    @media (max-width: 700px) {
+      .navbar {flex-direction:column;align-items:stretch;padding:0;height:auto;}
+      .logo {justify-content:center;padding:11px 0;}
+      .nav-toggle {display:flex;position:absolute;right:16px;top:12px;}
+      .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        width: 100%;
+        background: var(--primary);
+        padding-top: 0;
+        padding-bottom: 8px;
+        margin: 0;
+        box-shadow: none;
+        position: static;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s;
+      }
+      .nav-links.open {
+        max-height: 500px;
+        transition: max-height 0.4s;
+      }
+      .nav-links button, .nav-links a {
+        margin: 0;
+        margin-top: 6px;
+        margin-left: 0;
+        width: 94vw;
+        max-width: 440px;
+        align-self: center;
+        font-size: 1.16em;
+        padding: 13px 0;
+        border-radius: 7px;
+        min-width: 44px; min-height: 44px;
+      }
+      .whatsapp-btn {
+        width: 94vw; max-width: 440px; margin: 10px auto 0 auto;
+      }
+      body { padding-top: 60px;}
+      .gallery {grid-template-columns:1fr;}
+    }
+    /* --- HERO --- */
+    .hero {
+      max-width: 900px; margin: 80px auto 30px auto; text-align: center; padding: 40px 16px 36px 16px;
+      background: linear-gradient(108deg,#f9fbff 69%, #d7e1ff 100%);
+      border-radius: 17px; box-shadow: var(--shadow);
+      display:flex; flex-direction:column; align-items:center;
+      position:relative; overflow:hidden;
+    }
+    .hero h1 {
+      font-size: 2.25em; color: var(--primary); font-weight: 800; letter-spacing: 1.2px;
+      margin-bottom: 10px; line-height:1.13;
+      text-shadow: 0 3px 16px #e3ebff;
+    }
+    .hero .cta {
+      margin-top: 6px; background: var(--primary); color: #fff; font-weight:700; border:none;
+      padding:13px 33px; border-radius:10px; font-size:1.15em; cursor:pointer; box-shadow:0 3px 10px #3c5edb22;
+      transition: background .2s, color .2s;
+      min-width: 44px; min-height: 44px;
+    }
+    /* --- CATEGORIES --- */
+    .categories { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:18px auto 18px auto;}
+    .cat-btn {
+      background: #fff; border:1.6px solid var(--primary); color: var(--primary); border-radius:21px;
+      font-size: 1.01em; font-weight:700; padding:6px 22px; cursor:pointer;
+      transition: background .14s, color .17s, border .17s;
+      box-shadow: 0 1px 7px #3c5edb14;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: #fff;}
+    /* --- SEARCH --- */
+    .search-bar { display: flex; justify-content: center; margin: 25px auto 0 auto; max-width: 620px; }
+    .search-input {
+      width: 100%; padding: 12px 16px; font-size: 1.11em; border: 1.5px solid #d1d9f4; border-radius: 8px; outline: none; transition: border-color 0.18s;
+      background:#fafdff;
+      color:var(--text);
+    }
+    .search-input:focus { border-color: var(--primary);}
+    /* --- TRENDING --- */
+    .trending-bar {
+      display: flex; gap:10px; align-items:center;
+      background: var(--secondary); color: #b07300; font-weight:700;
+      padding:10px 18px; border-radius:13px; max-width:750px; margin:24px auto 0 auto; font-size:1.04em;
+      box-shadow: 0 1px 8px #ffe36b55;
+      flex-wrap: wrap;
+    }
+    .trending-bar span { margin-right:10px; }
+    .trending-bar a { color:#c08c00; text-decoration:underline;}
+    /* --- GALLERY --- */
+    .gallery {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(285px,1fr)); gap:24px;
+      max-width:1120px; margin:80px auto 40px auto; padding:0 8px;
+      width:100%;
+    }
+    .post-card {
+      background: #fff; border-radius:16px; box-shadow: var(--shadow);
+      overflow:hidden; display:flex; flex-direction:column; position:relative;
+      cursor:pointer; will-change: transform;
+      transition: box-shadow .18s cubic-bezier(.77,0,.18,1), transform .18s cubic-bezier(.77,0,.18,1);
+      min-width: 0;
+      border: 1.5px solid #f4f8ff;
+      margin-bottom: 16px;
+    }
+    .post-card:hover { box-shadow:0 12px 38px #3c5edb18; transform:scale(1.018) rotateZ(-0.8deg);}
+    .post-media img, .post-media video {
+      max-width:100%; max-height:260px; border-radius:12px; margin: 0 auto; display:block; box-shadow:0 2px 9px #3c5edb12;
+      transition:transform .14s cubic-bezier(.77,0,.18,1);
+      width: 100%;
+      object-fit: cover;
+      min-height: 120px;
+      aspect-ratio: 16/9;
+      background: #e3e3e3;
+    }
+    .post-content {
+      padding: 16px 14px 12px 14px;
+      position:relative;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+      background:inherit;
+    }
+    .post-title {
+      font-weight:800;
+      font-size:1.13em;
+      color:var(--primary);
+      margin-bottom:2px;
+      line-height:1.24;
+      word-break:break-word;
+    }
+    .post-desc {
+      font-size:1.04em;
+      color:#444;
+      margin-bottom:2px;
+      margin-top:1px;
+      line-height:1.4;
+      max-height: 3.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre-line;
+    }
+    .post-footer {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:3px;
+    }
+    .post-footer .post-category {
+      font-size:.99em;
+      color:#3c5edb;
+      background: #f3f6ff;
+      padding:4px 12px;
+      border-radius: 12px;
+      font-weight:700;
+      letter-spacing:.1em;
+      margin-right:8px;
+    }
+    .post-footer .post-rating {
+      font-size:.97em;
+      color:#e58f00;
+      font-weight:700;
+      background: #fff6e3;
+      padding:4px 12px;
+      border-radius: 12px;
+    }
+    .post-actions {
+      display:flex;
+      gap:12px;
+      margin-top:7px;
+      width:100%;
+    }
+    .action-btn {
+      background:#f6f6fa;
+      border:none;
+      border-radius:6px;
+      font-size:1.08em;
+      padding:9px 0;
+      cursor:pointer;
+      transition:.1s;
+      font-weight:700;
+      flex:1;
+      color: var(--primary);
+      min-width:44px; min-height: 38px;
+      box-shadow:0 1px 4px #3c5edb08;
+    }
+    .action-btn:hover { background:var(--secondary); color:var(--primary);}
+    .ad-slot { 
+      text-align:center; margin:20px auto; min-height:54px; color:#888; font-size:.99em; max-width:728px; 
+      border-radius: 13px; 
+      background: #f6f6fa;
+      box-shadow: 0 1px 7px #3c5edb14;
+    }
+    .random-btn {
+      display:block; margin:30px auto 36px auto; background:var(--secondary); color:#b07300; font-weight:800; border:none;
+      border-radius:12px; padding:16px 38px; font-size:1.15em; cursor:pointer; box-shadow:0 1px 7px #ffe36b44; transition: background .18s;
+      min-width: 44px; min-height: 44px;
+    }
+    .random-btn:hover { background:#fff7c9;}
+    .load-more-bar {display:flex; justify-content:center; margin:30px 0;}
+    #loadMoreBtn {
+      background:var(--primary); color:#fff; border:none; border-radius:9px; font-size:1.09em; font-weight:800;
+      padding:13px 36px; cursor:pointer; letter-spacing:.5px;
+      min-width: 44px; min-height: 44px;
+    }
+    #loadMoreBtn:hover { background: var(--text);}
+    /* --- ADMIN PANEL --- */
+    .admin-panel {
+      display:none;
+      max-width:440px;
+      margin:36px auto 0 auto;
+      background: #f1f6ff;
+      color: var(--primary);
+      padding:40px 26px 31px 26px;
+      border-radius:17px;
+      box-shadow:0 4px 18px #3c5edb13;
+      border: 1.5px solid var(--primary);
+    }
+    .admin-panel.active { display:block; }
+    .admin-panel h2 {
+      font-size:1.35em;
+      font-weight:900;
+      text-align:center;
+      color:var(--primary);
+      margin-bottom:19px;
+    }
+    #postForm { display:flex; flex-direction:column; gap:15px; }
+    #postForm input, #postForm textarea, #postForm select {
+      font-size:1.08em; padding:11px 14px; border-radius:7px; border:1.5px solid #bcd1fc; background:#fff; resize:none;
+      color:var(--primary);
+      margin-bottom:4px;
+      font-family:'Inter',Arial,sans-serif;
+      outline:none;
+      transition:border .18s;
+    }
+    #postForm input:focus, #postForm textarea:focus, #postForm select:focus {
+      border:1.5px solid var(--primary);
+      background:#fafdff;
+    }
+    #postForm button {
+      background:var(--primary); color:#fff; font-weight:800; border:none; padding:13px 0; border-radius:7px; cursor:pointer;
+      font-size:1.1em; letter-spacing:1px;
+      margin-top:8px;
+    }
+    #logoutBtn {
+      margin-top:13px; background:var(--danger); color:#fff; border:none; border-radius:7px; padding:11px 0; font-weight:700; cursor:pointer;
+      font-size:1em;
+      width:100%;
+    }
+    #formMsg { color:var(--danger); margin-top:9px; min-height:23px; }
+    /* --- MODALS, FOOTER, DARK MODE, ETC --- */
+    .footer {
+      background: var(--primary);
+      color: #fff;
+      font-size: .97em;
+      padding: 25px 0 15px 0;
+      text-align: center;
+      margin-top: 32px;
+      border-top: 2px solid #3146b4;
+    }
+    .footer a {
+      color: #ffe36b;
+      margin: 0 10px;
+      text-decoration: underline;
+      transition: color .2s;
+      font-weight: 600;
+    }
+    .footer a:hover { color: #fff; }
+    .footer .designed {
+      margin-top: 11px;
+      display:block;
+      font-size: .93em;
+      color: #d1e1ff;
+      letter-spacing: .04em;
+    }
+    .footer svg {vertical-align:middle;margin-right:3px;}
+    body.dark, .dark { color:var(--text-light);}
+    body.dark .post-card, .post-card.dark { background: var(--dark-card); border: 1.5px solid #273074;}
+    body.dark .gallery { background: var(--dark-bg);}
+    body.dark .post-title, .dark .post-title { color: var(--secondary);}
+    body.dark .hero h1 { color: var(--secondary);}
+    body.dark .navbar { background: #23243b;}
+    body.dark .nav-links button, body.dark .nav-links a { color:var(--secondary);}
+    body.dark .post-desc { color: #d5d9f7;}
+    body.dark .admin-panel {background: var(--dark-card); color:var(--text-light);}
+    /* --- MODAL --- */
+    .modal-backdrop {
+      position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(26,34,51,0.37); z-index:999;
+      display:flex; align-items:center; justify-content:center;
+      animation: fadeIn .33s;
+      touch-action: manipulation;
+      padding: 2vw;
+    }
+    @keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
+    .modal {
+      background:#fff; border-radius:19px; max-width:98vw; max-height:98vh; overflow-y:auto;
+      box-shadow:0 16px 60px 0 rgba(49,103,230,0.22); padding:24px 17px 16px 17px; position:relative;
+      min-width:260px; animation: popIn .6s cubic-bezier(.65,-0.02,.54,1.16) 1;
+      touch-action: manipulation;
+      font-size:1.07em;
+    }
+    .share-icons { display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:12px 0 16px 0;}
+    .share-icons a {display:inline-flex;align-items:center;}
+    .share-icons img {width:36px;height:36px;display:block;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#ffe36b" stroke="#375afc" stroke-width="5"/><ellipse cx="24" cy="28" rx="4" ry="7" fill="#375afc"/><ellipse cx="40" cy="28" rx="4" ry="7" fill="#375afc"/><path d="M24 44 Q32 54 40 44" stroke="#375afc" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+      <span>Dolce</span>
+    </span>
+    <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <span class="nav-links" id="navLinks">
+      <button onclick="scrollToGallery()">Gallery</button>
+      <button onclick="showTrending()">Trending</button>
+      <button onclick="showRandom()">Random</button>
+      <button id="darkModeBtn" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+      <button onclick="showAbout()">About</button>
+      <a class="whatsapp-btn" href="https://wa.me/2347047287846?text=Hi%2C%20I%20want%20to%20sponsor%20content%20on%20Dolce!" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="20" style="vertical-align:middle;margin-right:3px;">Chat Dolce</a>
+      <button id="adminBtn" onclick="showAdminPanel()">Admin</button>
+    </span>
+  </nav>
+  <main>
+    <section class="hero">
+      <h1>Welcome to Dolce!</h1>
+      <p>The funniest images & videos from WhatsApp statuses, now online.<br>
+        Laugh, react, and enjoy endless fun with Dolce and friends!</p>
+      <button class="cta" onclick="scrollToGallery()">See Gallery</button>
+    </section>
+    <div class="categories" id="categories"></div>
+    <div class="search-bar">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search memes, videos, or tags...">
+    </div>
+    <section id="trendingBar" class="trending-bar"></section>
+    <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+      <span class="loading-emoji" id="loadingEmoji">🎵</span>
+      <div class="loading-msg" id="loadingMsg">Loading the funniest stuff...</div>
+    </div>
+    <section id="gallery" class="gallery"></section>
+    <div class="ad-slot ad-infeed">[Ad here]</div>
+    <div id="loadMoreWrapper" class="load-more-bar">
+      <button id="loadMoreBtn" onclick="loadMorePosts()">Load More</button>
+    </div>
+    <button class="random-btn" onclick="showRandomPost()">Show Me Something Funny!</button>
+    <div class="ad-slot ad-footer">[Ad footer]</div>
+    <section id="adminPanel" class="admin-panel">
+      <h2>Admin Panel</h2>
+      <form id="postForm" enctype="multipart/form-data">
+        <input type="text" id="postTitle" placeholder="Title" required>
+        <textarea id="postDesc" placeholder="Description (optional)"></textarea>
+        <select id="postCategory" required>
+          <option value="">Pick a category</option>
+          <option value="Fails">Fails</option>
+          <option value="Dance">Dance</option>
+          <option value="Pets">Pets</option>
+          <option value="Family">Family</option>
+          <option value="Random">Random</option>
+        </select>
+        <input type="file" id="postMedia" accept="image/*,video/*" multiple required>
+        <button type="submit">Post</button>
+        <div id="formMsg"></div>
+      </form>
+      <button onclick="logout()" id="logoutBtn">Logout</button>
+    </section>
+  </main>
+  <div id="modal-root"></div>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_12b2f6a1b3.mp3" type="audio/mp3">
+  </audio>
+  <footer class="footer">
+    <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>|
+    <a href="/terms.html" target="_blank">Terms &amp; Conditions</a>
+    <span class="designed">
+      Designed by 
+      <a href="https://supremeamer.com" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffe36b" stroke="#375afc" stroke-width="2"/><ellipse cx="9" cy="11" rx="1.3" ry="2" fill="#375afc"/><ellipse cx="15" cy="11" rx="1.3" ry="2" fill="#375afc"/><path d="M8 16 Q12 20 16 16" stroke="#375afc" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Supremeamer
+      </a>
+    </span>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+  <script>
+      // --- Responsive NAV toggle ---
+    function scrollToGallery() {
+      document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
+    }
+    function showTrending() {
+      document.getElementById("trendingBar").scrollIntoView({behavior:"smooth"});
+    }
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("dolceDark", document.body.classList.contains("dark") ? "1" : "");
+      document.getElementById('darkModeBtn').innerText = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      renderGallery();
+    }
+    if(localStorage.getItem("dolceDark")==="1" ||
+      (!localStorage.getItem("dolceDark") && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.body.classList.add("dark");
+      window.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('darkModeBtn').innerText = '☀️';
+      });
+    }
+    // --- Appwrite Config ---
+    const APPWRITE_ENDPOINT = "https://syd.cloud.appwrite.io/v1";
+    const APPWRITE_PROJECT = "6855bbd00031179bfaf2";
+    const APPWRITE_DB_ID = "6855c193003251d7089d";
+    const APPWRITE_COLLECTION_ID = "6855c1ae002e0fa9b232";
+    const BUCKET_ID = "6855cceb0002dda0b9f5";
+    const ADMIN_EMAILS = ["supremealpha04@gmail.com", "emmyplumbing@gmail.com"];
+    const POSTS_PER_PAGE = 9;
+    const CATEGORIES = ["Fails", "Dance", "Pets", "Family", "Random"];
+    const client = new Appwrite.Client();
+    client.setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT);
+    const account = new Appwrite.Account(client);
+    const db = new Appwrite.Databases(client);
+    const storage = new Appwrite.Storage(client);
+    let posts = [];
+    let currentPage = 0;
+    let isAdmin = false;
+    let trendingPosts = [];
+    let currentCategory = "All";
+    let searchQuery = "";
+
+    function showLoading(msg = "Loading the funniest stuff...") {
+      if(document.getElementById("loadingMsg")) document.getElementById("loadingMsg").innerText = msg;
+      if(document.getElementById("loadingOverlay")) document.getElementById("loadingOverlay").style.display = "";
+      if(document.getElementById("loadingEmoji")) document.getElementById("loadingEmoji").innerText = ["🎵","😂","😎","🔥","🎶","😄"][Math.floor(Math.random()*6)];
+    }
+    function hideLoading() { if(document.getElementById("loadingOverlay")) document.getElementById("loadingOverlay").style.display = "none"; }
+
+    function renderCategories() {
+      const cats = ["All", ...CATEGORIES];
+      document.getElementById("categories").innerHTML = cats.map(cat =>
+        `<button class="cat-btn${cat===currentCategory?' active':''}" onclick="selectCategory('${cat}')">${cat}</button>`
+      ).join("");
+    }
+    window.selectCategory = function(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderGallery();
+    }
+    document.getElementById('searchInput').addEventListener('input', function(e){
+      searchQuery = e.target.value.trim().toLowerCase();
+      renderGallery();
+    });
+
+    async function loadPosts({append=false}={}) {
+      showLoading();
+      try {
+        const res = await db.listDocuments(
+          APPWRITE_DB_ID,
+          APPWRITE_COLLECTION_ID,
+          [
+            Appwrite.Query.orderDesc("createdAt"),
+            Appwrite.Query.limit(POSTS_PER_PAGE),
+            Appwrite.Query.offset(currentPage * POSTS_PER_PAGE)
+          ]
+        );
+        if (append) posts = posts.concat(res.documents);
+        else posts = res.documents;
+        renderGallery();
+        renderTrendingBar();
+        if (res.documents.length < POSTS_PER_PAGE) {
+          document.getElementById("loadMoreWrapper").style.display = "none";
+        } else {
+          document.getElementById("loadMoreWrapper").style.display = "";
+        }
+        hideLoading();
+      } catch (e) {
+        document.getElementById("gallery").innerHTML = "<div style='color:#e53935;font-weight:700;'>Failed to load content.</div>";
+        hideLoading();
+      }
+    }
+
+    function renderGallery() {
+      const gallery = document.getElementById("gallery");
+      let filtered = posts;
+      if(currentCategory && currentCategory !== "All") {
+        filtered = posts.filter(p => (p.category||"Random") === currentCategory);
+      }
+      if(searchQuery) {
+        filtered = filtered.filter(post =>
+          (post.title && post.title.toLowerCase().includes(searchQuery)) ||
+          (post.description && post.description.toLowerCase().includes(searchQuery)) ||
+          (post.category && post.category.toLowerCase().includes(searchQuery))
+        );
+      }
+      gallery.innerHTML = "";
+      filtered.forEach(post => {
+        let mediaHtml = "";
+        if (post.type === "image" && post.media && post.media[0]) {
+          mediaHtml = `<img src="${post.media[0]}" alt="${post.title}" loading="lazy">`;
+        } else if (post.type === "video" && post.media && post.media[0]) {
+          mediaHtml = `<video src="${post.media[0]}" controls loading="lazy" poster="https://emojiapi.dev/api/v1/1f60e/128.png"></video>`;
+        }
+        const rating = 600 + Math.floor(Math.random() * 601);
+        const desc = post.description ? `<div class="post-desc">${post.description.length > 120 ? post.description.substring(0,110) + "..." : post.description}</div>` : "";
+        const card = document.createElement("div");
+        card.className = "post-card card-anim" + (document.body.classList.contains("dark") ? " dark" : "");
+        card.innerHTML = `
+          <div class="post-media">${mediaHtml}</div>
+          <div class="post-content">
+            <div class="post-title">${post.title}</div>
+            ${desc}
+            <div class="post-footer">
+              <span class="post-category">${post.category||"Random"}</span>
+              <span class="post-rating">⭐ ${rating}</span>
+            </div>
+            <div class="post-actions">
+              <button class="action-btn" onclick="window.sharePost('${post.$id}')">📤 Share</button>
+              <button class="action-btn" onclick="downloadMedia('${post.media[0]}','${post.title}')">⬇️</button>
+            </div>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+      if (!window._infiniteScrollAttached) {
+        window._infiniteScrollAttached = true;
+        window.addEventListener("scroll", () => {
+          if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 250) {
+            if(document.getElementById("loadMoreWrapper").style.display !== "none") loadMorePosts();
+          }
+        });
+      }
+    }
+
+    function renderTrendingBar() {
+      trendingPosts = [...posts].slice(0, 3);
+      const bar = document.getElementById("trendingBar");
+      if (!trendingPosts.length) { bar.innerHTML = ""; return; }
+      bar.innerHTML = `<span>🔥 Trending:</span>` +
+        trendingPosts.map(
+          post => `<a href="#post-${post.$id}" onclick="highlightPost('${post.$id}')">${post.title}</a>`
+        ).join(" ");
+    }
+
+    window.highlightPost = function(postId) {
+      const gallery = document.getElementById("gallery");
+      const cards = Array.from(gallery.querySelectorAll(".post-card"));
+      const idx = posts.findIndex(post => post.$id === postId);
+      if (idx !== -1 && cards[idx]) {
+        cards[idx].scrollIntoView({behavior: "smooth", block: "center"});
+        cards[idx].style.boxShadow = "0 0 0 7px var(--secondary)";
+        setTimeout(()=>cards[idx].style.boxShadow="", 1400);
+      }
+    }
+
+    window.loadMorePosts = function() {
+      currentPage++;
+      loadPosts({append:true});
+    };
+
+    window.showRandomPost = function() {
+      const filtered = currentCategory && currentCategory !== "All"
+        ? posts.filter(p => (p.category||"Random") === currentCategory)
+        : posts;
+      if (!filtered.length) return;
+      const idx = Math.floor(Math.random()*filtered.length);
+      highlightPost(filtered[idx].$id);
+    };
+
+    window.sharePost = function(postId) {
+      const post = posts.find(p=>p.$id===postId);
+      if (!post) return;
+      const url = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(postId);
+      const text = `😂 Dolce: ${post.title}\n${post.description||""}\n${url}`;
+      const modalContent = `
+        <div style="max-width:330px;margin:auto;">
+          <h3 style="margin-bottom:12px;text-align:center;">Share Post</h3>
+          <div class="share-icons">
+            <a href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" title="Share on WhatsApp">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" title="Share on Facebook">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+            </a>
+            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}" target="_blank" title="Share on X (Twitter)">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="X">
+            </a>
+            <a href="https://instagram.com/yourpage" target="_blank" title="Instagram (copy link and paste in your story!)">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="background:#fff;border-radius:7px;">
+            </a>
+          </div>
+          <button onclick="copyToClipboard('${url}')" style="margin-bottom:8px;width:100%;font-size:1em;">📋 Copy Link</button>
+          <button onclick="closeModal()" style="width:100%;background:#eee;color:#222;border-radius:6px;font-size:1em;">Close</button>
+          <div style="font-size:.93em;color:#888;margin-top:6px;text-align:center;">For Instagram, copy the link and paste in your story!</div>
+        </div>
+      `;
+      document.getElementById("modal-root").innerHTML = `<div class="modal-backdrop" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()" style="background:#fff;border-radius:11px;">${modalContent}</div>
+      </div>`;
+      document.body.style.overflow = "hidden";
+    };
+    window.copyToClipboard = function(text) {
+      navigator.clipboard.writeText(text);
+      alert("Link copied!");
+      closeModal();
+    };
+    window.downloadMedia = function(url, title) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = title.replace(/\s/g,"_");
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>a.remove(),500);
+    };
+    function showAbout() {
+      document.getElementById("modal-root").innerHTML = `
+        <div class="modal-backdrop" onclick="closeModal(event)">
+          <div class="modal" onclick="event.stopPropagation()">
+            <div class="about-emoji">😎</div>
+            <h2 style="color:var(--primary);margin-bottom:14px;">Meet Dolce</h2>
+            <div class="about-story">Once upon a status, Dolce started posting memes that made the internet ROFL. Now, Dolce’s gallery brings you the very best of WhatsApp hilarity—curated for fun, filtered with love, and sprinkled with good vibes. <b>Laugh, react, and share the joy!</b></div>
+            <div style="font-size:1.04em; margin-bottom:18px;">P.S. Don’t forget to try dark mode and the music button for a true Dolce experience 🎶</div>
+            <button style="background:var(--primary);color:#fff;padding:13px 26px;border:none;border-radius:10px;font-weight:800;" onclick="closeModal(event)">Close</button>
+          </div>
+        </div>
+      `;
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal(e) {
+      document.getElementById("modal-root").innerHTML = "";
+      document.body.style.overflow = "";
+    }
+    function showAdminPanel() {
+      if (isAdmin) {
+        document.getElementById("adminPanel").classList.add("active");
+      } else {
+        showLogin();
+      }
+    }
+    function showLogin() {
+      document.getElementById("modal-root").innerHTML = `
+        <div class="modal-backdrop" onclick="closeModal(event)">
+          <div class="modal" onclick="event.stopPropagation()" style="background:#fff; border-radius:14px; max-width:340px; margin:40px auto; padding:28px;">
+            <h2 style="color:var(--primary);margin-bottom:8px;">Admin Login</h2>
+            <form id="loginForm">
+              <input type="email" id="loginEmail" placeholder="Email" required style="width:100%;padding:10px;margin-bottom:13px;">
+              <input type="password" id="loginPassword" placeholder="Password" required style="width:100%;padding:10px;">
+              <button style="margin-top:15px;width:100%;background:var(--primary);color:#fff;padding:11px 0;border:none;border-radius:7px;font-weight:800;">Login</button>
+              <div id="loginMsg" style="color:var(--danger);margin-top:13px;"></div>
+            </form>
+          </div>
+        </div>
+      `;
+      document.body.style.overflow = "hidden";
+      document.getElementById("loginForm").onsubmit = async function(e) {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        if (!ADMIN_EMAILS.includes(email)) {
+          document.getElementById("loginMsg").innerText = "Not authorized.";
+          return;
+        }
+        try {
+          await account.createEmailSession(email, password);
+          isAdmin = true;
+          closeModal();
+          document.getElementById("adminPanel").classList.add("active");
+        } catch (err) {
+          document.getElementById("loginMsg").innerText = "Login failed.";
+        }
+      };
+    }
+    async function logout() {
+      try { await account.deleteSession("current"); } catch {}
+      isAdmin = false;
+      document.getElementById("adminPanel").classList.remove("active");
+    }
+    document.getElementById("postForm").onsubmit = async function(e) {
+      e.preventDefault();
+      const title = document.getElementById("postTitle").value.trim();
+      const description = document.getElementById("postDesc").value.trim();
+      const files = document.getElementById("postMedia").files;
+      const category = document.getElementById("postCategory").value || "Random";
+      if (!title || files.length === 0 || !category) {
+        document.getElementById("formMsg").innerText = "Title, category, and media are required.";
+        return;
+      }
+      document.getElementById("formMsg").innerText = "Uploading...";
+      try {
+        let urls = [];
+        let type = "image";
+        for (let file of files) {
+          const uploadRes = await storage.createFile(BUCKET_ID, Appwrite.ID.unique(), file);
+          const fileId = uploadRes.$id;
+          const url = `${APPWRITE_ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${fileId}/view?project=${APPWRITE_PROJECT}`;
+          urls.push(url);
+          if (file.type.startsWith("video")) type = "video";
+        }
+        await db.createDocument(APPWRITE_DB_ID, APPWRITE_COLLECTION_ID, Appwrite.ID.unique(), {
+          title,
+          description,
+          media: urls,
+          type,
+          category,
+          createdAt: new Date().toISOString()
+        });
+        document.getElementById("formMsg").innerText = "Posted!";
+        currentPage = 0;
+        await loadPosts();
+        this.reset();
+      } catch (err) {
+        document.getElementById("formMsg").innerText = "Failed to post.";
+      }
+    };
+
+    // PWA Service Worker (optional, as in previous completions)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js').catch(function(err){
+          console.log("Service worker registration failed: ", err);
+        });
+      });
+    }
+
+    (async function(){
+      renderCategories();
+      try {
+        const session = await account.get();
+        if (session && ADMIN_EMAILS.includes(session.email)) {
+          isAdmin = true;
+          document.getElementById("adminPanel").classList.add("active");
+        }
+      } catch (e) {
+        isAdmin = false;
+      }
+      currentPage = 0;
+      loadPosts();
+    })();
+     </script>
+</body>
+</html>
